@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset=" UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas画板</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id='canvas'></div>
+    <script>
+        // JS 操作Dom 划线 性能太差
+        canvas.onmousemove = function (e) {
+            console.log(e)
+            let div = document.createElement(div);
+            div.style.position = 'absolute'
+            div.style.left = e.clientX + 'px';
+            div.style.top = e.clientY + 'px';
+            div.style.width = '4px';
+            div.style.height = '4px';
+            div.style.backgroundColor = 'black'
+            div.style.borderRadius = '50%'
+            canvas.append(div);
+        }
+    </script>
+</body>
+
+</html>
