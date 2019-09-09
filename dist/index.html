@@ -10,19 +10,43 @@
 <script src="/style.e308ff8e.js"></script></head>
 
 <body>
-    <div id="canvas"></div>
-    <script>// JS 操作Dom 划线 性能太差
+    <canvas id="canvas" width="100vw" height="100vh"></canvas>
+    <script>//  JS 操作Dom 划线 性能太差
+// canvas.onmousemove = function (e) {
+//     console.log(e)
+//     let div = document.createElement(div);
+//     div.style.position = 'absolute'
+//     div.style.left = e.clientX + 'px';
+//     div.style.top = e.clientY + 'px';
+//     div.style.width = '4px';
+//     div.style.height = '4px';
+//     div.style.backgroundColor = 'black'
+//     div.style.borderRadius = '50%'
+//     canvas.append(div);
+// }
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+canvas.width = document.documentElement.clientWidth;
+canvas.height = document.documentElement.clientHeight;
+ctx.fillStyle = "black";
+var painting = false;
+
+canvas.onmousedown = function () {
+  painting = true;
+  console.log('鼠标点主李 ');
+  console.log(painting);
+};
+
 canvas.onmousemove = function (e) {
-  console.log(e);
-  var div = document.createElement(div);
-  div.style.position = 'absolute';
-  div.style.left = e.clientX + 'px';
-  div.style.top = e.clientY + 'px';
-  div.style.width = '4px';
-  div.style.height = '4px';
-  div.style.backgroundColor = 'black';
-  div.style.borderRadius = '50%';
-  canvas.append(div);
+  if (painting == true) {
+    ctx.beginPath();
+    ctx.arc(e.clientX, e.clientY, 4, 0, 2 * Math.PI);
+    ctx.fill();
+  } else {}
+};
+
+canvas.onmouseup = function () {
+  painting = false;
 };</script>
 </body>
 

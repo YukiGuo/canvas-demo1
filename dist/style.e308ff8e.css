@@ -3,9 +3,7 @@ body{
     padding: 0;
 }
 #canvas{
-    height: 100vh;
-    width: 100vw;
-    border-radius: 
+  background-color: antiquewhite;
 }
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */
