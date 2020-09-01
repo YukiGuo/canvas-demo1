@@ -10,7 +10,47 @@
 </head>
 
 <body>
+        <ul class="colors">
+            <li class="red selected"></li>
+            <li class="orange"></li>
+            <li class="yellow"></li>
+            <li class="green"></li>
+            <li class="aqua"></li>
+            <li class="blue"></li>
+            <li class="purple"></li>
+        </ul>
+        <ul class="tools">
+            <li class="pen selected">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-huabi"></use>
+                </svg>
+            </li>
+            <li class="eraser">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-xiangpi"></use>
+                </svg>
+            </li>
+            <li class="clear">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-qingkong"></use>
+                </svg>
+            </li>
+            <li class="back">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-huifu"></use>
+                </svg>
+            </li>
+            <li class="save">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-xiazai1x"></use>
+                </svg>
+            </li>
+        </ul>
+        <div class="brush">
+            <input type="range" min="1" max="30" value="5"/>
+        </div>
     <canvas id='canvas' width=100vw height=100vh></canvas>
+        <script src="svg.js"></script>
     <script>
         //  JS 操作Dom 划线 性能太差
         // canvas.onmousemove = function (e) {
@@ -25,18 +65,38 @@
         //     div.style.borderRadius = '50%'
         //     canvas.append(div);
         // }
+        let option={
+            brush:{
+                thick:'',
+                normal:'',
+                thin:''
+            },
+            colors:{
+                red:'red',
+                green:'green',
+                blue:'blue',
+                pink:'pink'
+            }
+        };
+        let brushList=document.querySelectorAll('.brush>li');
+        let colorList=document.querySelectorAll('.colors>li');
+        let selectedBrush
+        let selectedColor
+        brushList.forEach((item)=>{item.addEventListener('click',()=>{
+            if(selectedBrush===undefined){
+                item.classList.add('selected')
+            }
 
+        })})
         let canvas = document.getElementById('canvas')
         let ctx = canvas.getContext('2d')
         canvas.width = document.documentElement.clientWidth
         canvas.height = document.documentElement.clientHeight
-        ctx.fillStyle = "black"
         let painting = false
-        ctx.lineWidth = '6'
         ctx.lineCap = 'round'
         ctx.lineJoin = 'round'
-        var last
-        var now
+        let last
+        let now
 
         //手机适配
         let isTouchDevice = "ontouchstart" in document.documentElement
@@ -68,7 +128,9 @@
         canvas.onmouseup = function () {
             painting = false
         }
-        function drawLine(x1, y1, x2, y2) {
+        function drawLine(x1, y1, x2, y2,brush=6,color="black") {
+            ctx.lineWidth =brush;
+            ctx.strokeStyle = color;
             ctx.beginPath();
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
