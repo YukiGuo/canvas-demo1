@@ -11,7 +11,7 @@
 
 <body>
         <ul class="colors">
-            <li class="red selected"></li>
+            <li class="red"></li>
             <li class="orange"></li>
             <li class="yellow"></li>
             <li class="green"></li>
@@ -51,111 +51,7 @@
         </div>
     <canvas id='canvas' width=100vw height=100vh></canvas>
         <script src="svg.js"></script>
-    <script>
-        //  JS 操作Dom 划线 性能太差
-        // canvas.onmousemove = function (e) {
-        //     console.log(e)
-        //     let div = document.createElement(div);
-        //     div.style.position = 'absolute'
-        //     div.style.left = e.clientX + 'px';
-        //     div.style.top = e.clientY + 'px';
-        //     div.style.width = '4px';
-        //     div.style.height = '4px';
-        //     div.style.backgroundColor = 'black'
-        //     div.style.borderRadius = '50%'
-        //     canvas.append(div);
-        // }
-        let option={
-            brush:{
-                thick:'',
-                normal:'',
-                thin:''
-            },
-            colors:{
-                red:'red',
-                green:'green',
-                blue:'blue',
-                pink:'pink'
-            }
-        };
-        let brushList=document.querySelectorAll('.brush>li');
-        let colorList=document.querySelectorAll('.colors>li');
-        let selectedBrush
-        let selectedColor
-        brushList.forEach((item)=>{item.addEventListener('click',()=>{
-            if(selectedBrush===undefined){
-                item.classList.add('selected')
-            }
-
-        })})
-        let canvas = document.getElementById('canvas')
-        let ctx = canvas.getContext('2d')
-        canvas.width = document.documentElement.clientWidth
-        canvas.height = document.documentElement.clientHeight
-        let painting = false
-        ctx.lineCap = 'round'
-        ctx.lineJoin = 'round'
-        let last
-        let now
-
-        //手机适配
-        let isTouchDevice = "ontouchstart" in document.documentElement
-        console.log(isTouchDevice)
-        if (isTouchDevice) {
-            canvas.ontouchstart = function (e) {
-                last = [e.touches[0].clientX, e.touches[0].clientY]
-            }
-            canvas.ontouchmove = function (e) {
-                console.log(e)
-                now = [e.touches[0].clientX, e.touches[0].clientY]
-                drawLine(last[0], last[1], now[0], now[1])
-                last = now
-            }
-        }
-
-        //划线
-        canvas.onmousedown = function (e) {
-            painting = true
-            last = [e.clientX, e.clientY]
-        }
-        canvas.onmousemove = function (e) {
-            if (painting) {
-                now = [e.clientX, e.clientY]
-                drawLine(last[0], last[1], now[0], now[1])
-                last = now
-            }
-        }
-        canvas.onmouseup = function () {
-            painting = false
-        }
-        function drawLine(x1, y1, x2, y2,brush=6,color="black") {
-            ctx.lineWidth =brush;
-            ctx.strokeStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(x2, y2);
-            ctx.stroke();
-        }
-
-       //画点
-        /*
-        canvas.onmousedown = function () {
-                painting = true
-            }
-            canvas.onmousemove = function (e) {
-                if (painting == true) {
-                    ctx.beginPath();
-                    ctx.arc(e.clientX, e.clientY, 4, 0, 2 * Math.PI);
-                    ctx.fill()
-                }
-                else { }
-            }
-            canvas.onmouseup = function () {
-
-                painting = false;
-            }
-        */
-    </script>
+    <script src="main.js"></script>
 </body>
 
 </html>

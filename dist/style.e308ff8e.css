@@ -1,9 +1,100 @@
-body{
-    margin:0;
+*{
+    box-sizing: border-box;
     padding: 0;
+    margin: 0;
 }
-#canvas{
-display: block;
+ul{
+    list-style: none;
+}
+h4{text-align: center}
+    #canvas{
+    display: block;
+    /*border: solid 1px #ccc;*/
+}
+
+.brush{
+    position: absolute;
+    top: 50%;
+}
+.brush >input{
+    display: block;
+    width: 200px;
+    background: #999;
+    border-radius: 15px;
+    transform: rotate(-90deg);
+
+}
+.colors{
+   position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+ .colors li{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+     margin-top: 10px;
+}
+.colors li:hover{
+    box-shadow: 0px 0px 5px  rgba(0,0,0,0.9);
+}
+.colors .selected{
+    box-shadow: 0px 0px 5px  rgba(0,0,0,0.9);
+}
+.colors .red{
+     background: red;
+ }
+.colors .yellow{
+    background: yellow;
+}
+.colors .green{
+    background: green;
+}
+.colors .blue{
+    background: blue;
+}
+.colors .orange{
+    background: orange;
+}
+.colors .purple{
+    background: purple;
+}
+.colors .aqua{
+background: aqua;
+}
+
+
+.tools{
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.tools li{
+    display: inline-flex;
+    color: #999999;
+    padding: 8px;
+    background: white;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+    border-radius: 50%;
+    margin-left:8px ;
+}
+.tools .selected{
+    padding: 10px;
+    color: darkcyan;
+    box-shadow: 0px 0px 8px  rgba(0,0,0,0.4);
+}
+.tools>li:hover{
+    padding: 10px;
+    box-shadow: 0px 0px 8px  rgba(0,0,0,0.4);
+}
+.icon {
+    width: 1.5em; height:1.5em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
 }
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */

@@ -117,79 +117,147 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../../software/nodejs/node_cache/_npx/224/node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
+})({"main.js":[function(require,module,exports) {
+//  JS 操作Dom 划线 性能太差
+// canvas.onmousemove = function (e) {
+//     console.log(e)
+//     let div = document.createElement(div);
+//     div.style.position = 'absolute'
+//     div.style.left = e.clientX + 'px';
+//     div.style.top = e.clientY + 'px';
+//     div.style.width = '4px';
+//     div.style.height = '4px';
+//     div.style.backgroundColor = 'black'
+//     div.style.borderRadius = '50%'
+//     canvas.append(div);
+// }
+var brush = {
+  size: "4",
+  color: 'blue'
+};
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+canvas.width = document.documentElement.clientWidth;
+canvas.height = document.documentElement.clientHeight;
+var painting = false;
+ctx.lineCap = 'round';
+ctx.lineJoin = 'round';
+var last;
+var now; //划线
 
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
+canvas.onmousedown = function (e) {
+  painting = true;
+  last = [e.clientX, e.clientY];
+};
+
+canvas.onmousemove = function (e) {
+  if (painting) {
+    now = [e.clientX, e.clientY];
+    drawLine(last[0], last[1], now[0], now[1]);
+    last = now;
   }
+};
 
-  return bundleURL;
-}
+canvas.onmouseup = function () {
+  painting = false;
+};
 
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+function drawLine(x1, y1, x2, y2) {
+  ctx.lineWidth = brush.size;
+  ctx.strokeStyle = brush.color;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+} //手机适配
 
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
 
-  return '/';
-}
+var isTouchDevice = ("ontouchstart" in document.documentElement);
 
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"../../software/nodejs/node_cache/_npx/224/node_modules/parcel/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-
-  newLink.onload = function () {
-    link.remove();
+if (isTouchDevice) {
+  canvas.ontouchstart = function (e) {
+    last = [e.touches[0].clientX, e.touches[0].clientY];
   };
 
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
+  canvas.ontouchmove = function (e) {
+    console.log(e);
+    now = [e.touches[0].clientX, e.touches[0].clientY];
+    drawLine(last[0], last[1], now[0], now[1]);
+    last = now;
+  };
+} //改变颜色
 
-var cssTimeout = null;
 
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
+var colors = document.querySelector(".colors");
+
+colors.onclick = function (event) {
+  var el = event.target;
+
+  if (el.tagName === "LI") {
+    brush.color = event.target.className;
+    selectedToggle(el, "colors");
   }
+}; //改变笔刷大小
 
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
 
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
-      }
+var size = document.querySelector(".brush>input");
+
+size.onclick = function (event) {
+  brush.size = event.target.value;
+}; //
+
+
+var buttons = document.querySelector(".tools");
+var icon = document.querySelector(".icon>use");
+buttons.addEventListener("click", function (e) {
+  var el = e.target;
+
+  while (!el.matches("li")) {
+    if (buttons === el) {
+      el = null;
+      break;
     }
 
-    cssTimeout = null;
-  }, 50);
-}
+    el = el.parentNode;
+  }
 
-module.exports = reloadCSS;
-},{"./bundle-url":"../../software/nodejs/node_cache/_npx/224/node_modules/parcel/src/builtins/bundle-url.js"}],"style.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
+  if (el) {
+    selectedToggle(el, "tools");
+  }
+});
 
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"../../software/nodejs/node_cache/_npx/224/node_modules/parcel/src/builtins/css-loader.js"}],"../../software/nodejs/node_cache/_npx/224/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var selectedToggle = function selectedToggle(el, parentClassName) {
+  var name = el.classList.value.split(" ")[0];
+  var others = document.querySelectorAll(".".concat(parentClassName, ">li:not(.").concat(name, ")"));
+
+  if (el.classList.value.indexOf('selected') >= 0) {
+    el.classList.remove("selected");
+  } else {
+    el.classList.add("selected");
+    others.forEach(function (item) {
+      item.classList.remove("selected");
+    });
+  }
+}; //画点
+
+/*
+canvas.onmousedown = function () {
+        painting = true
+    }
+    canvas.onmousemove = function (e) {
+        if (painting == true) {
+            ctx.beginPath();
+            ctx.arc(e.clientX, e.clientY, 4, 0, 2 * Math.PI);
+            ctx.fill()
+        }
+        else { }
+    }
+    canvas.onmouseup = function () {
+
+        painting = false;
+    }
+*/
+},{}],"../../software/nodejs/node_cache/_npx/224/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -393,5 +461,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../software/nodejs/node_cache/_npx/224/node_modules/parcel/src/builtins/hmr-runtime.js"], null)
-//# sourceMappingURL=/style.e308ff8e.js.map
+},{}]},{},["../../software/nodejs/node_cache/_npx/224/node_modules/parcel/src/builtins/hmr-runtime.js","main.js"], null)
+//# sourceMappingURL=/main.1f19ae8e.js.map

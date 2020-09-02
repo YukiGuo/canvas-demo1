@@ -10,89 +10,48 @@
 <script src="/style.e308ff8e.js"></script></head>
 
 <body>
+        <ul class="colors">
+            <li class="red"></li>
+            <li class="orange"></li>
+            <li class="yellow"></li>
+            <li class="green"></li>
+            <li class="aqua"></li>
+            <li class="blue"></li>
+            <li class="purple"></li>
+        </ul>
+        <ul class="tools">
+            <li class="pen selected">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-huabi"></use>
+                </svg>
+            </li>
+            <li class="eraser">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-xiangpi"></use>
+                </svg>
+            </li>
+            <li class="clear">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-qingkong"></use>
+                </svg>
+            </li>
+            <li class="back">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-huifu"></use>
+                </svg>
+            </li>
+            <li class="save">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-xiazai1x"></use>
+                </svg>
+            </li>
+        </ul>
+        <div class="brush">
+            <input type="range" min="1" max="30" value="5">
+        </div>
     <canvas id="canvas" width="100vw" height="100vh"></canvas>
-    <script>//  JS 操作Dom 划线 性能太差
-// canvas.onmousemove = function (e) {
-//     console.log(e)
-//     let div = document.createElement(div);
-//     div.style.position = 'absolute'
-//     div.style.left = e.clientX + 'px';
-//     div.style.top = e.clientY + 'px';
-//     div.style.width = '4px';
-//     div.style.height = '4px';
-//     div.style.backgroundColor = 'black'
-//     div.style.borderRadius = '50%'
-//     canvas.append(div);
-// }
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-canvas.width = document.documentElement.clientWidth;
-canvas.height = document.documentElement.clientHeight;
-ctx.fillStyle = "black";
-var painting = false;
-ctx.lineWidth = '6';
-ctx.lineCap = 'round';
-ctx.lineJoin = 'round';
-var last;
-var now; //手机适配
-
-var isTouchDevice = "ontouchstart" in document.documentElement;
-console.log(isTouchDevice);
-
-if (isTouchDevice) {
-  canvas.ontouchstart = function (e) {
-    last = [e.touches[0].clientX, e.touches[0].clientY];
-  };
-
-  canvas.ontouchmove = function (e) {
-    console.log(e);
-    now = [e.touches[0].clientX, e.touches[0].clientY];
-    drawLine(last[0], last[1], now[0], now[1]);
-    last = now;
-  };
-} //划线
-
-
-canvas.onmousedown = function (e) {
-  painting = true;
-  last = [e.clientX, e.clientY];
-};
-
-canvas.onmousemove = function (e) {
-  if (painting) {
-    now = [e.clientX, e.clientY];
-    drawLine(last[0], last[1], now[0], now[1]);
-    last = now;
-  }
-};
-
-canvas.onmouseup = function () {
-  painting = false;
-};
-
-function drawLine(x1, y1, x2, y2) {
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.stroke();
-} //画点
-
-/*
-canvas.onmousedown = function () {
-        painting = true
-    }
-    canvas.onmousemove = function (e) {
-        if (painting == true) {
-            ctx.beginPath();
-            ctx.arc(e.clientX, e.clientY, 4, 0, 2 * Math.PI);
-            ctx.fill()
-        }
-        else { }
-    }
-    canvas.onmouseup = function () {
-          painting = false;
-    }
-*/</script>
+        <script src="/svg.559f1883.js"></script>
+    <script src="/main.1f19ae8e.js"></script>
 </body>
 
 </html>
